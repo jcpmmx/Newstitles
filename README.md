@@ -1,4 +1,4 @@
-# NYTimes Titles
+# Newstitles
 
 The task is to write a function that produces a list of article titles from The NY Times (www.nytimes.com) and then
 sorts them by the sum of each title's tokens frequency (let's call this sum `weight` -a token is just a word separated
