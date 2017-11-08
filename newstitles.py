@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 """
-NYTimes Titles
+Newstitles
 ---
 
 The task is to write a function that produces a list of article titles from The NY Times (www.nytimes.com) and then
@@ -42,8 +42,8 @@ To run it, just do:
 $ python newtitles.py
 ```
 In case you want to run it with different settings, modify these 2 vars:
- - TARGET_URL: URL of the site to analyze (e.g. `https://www.nytimes.com`)
- - TARGET_SELECTOR: XPath selector of the expected location of each title (e.g. `/html/body//article@title`)
+ - `TARGET_URL`: URL of the site to analyze (e.g. `https://www.nytimes.com`)
+ - `TARGET_SELECTOR`: XPath selector of the expected location of each title (e.g. `/html/body//article@title`)
 
 Notes:
 - We're assuming English as language
@@ -54,7 +54,7 @@ Notes:
 from __future__ import print_function, unicode_literals
 
 import re
-from collections import Counter, OrderedDict
+from collections import Counter
 
 import requests
 from lxml import html
@@ -85,8 +85,8 @@ def get_all_titles(html_data, selector=TARGET_SELECTOR):
     :param selector: The XPath selector of the titles
     :return: A list of all titles found in the given HTML data using the given selector
     """
-    html_tree = html.fromstring(html_data)
     try:
+        html_tree = html.fromstring(html_data)  # WARNING: Potentially heavy operation if input data is large enough
         return [unicode(x).strip() for x in html_tree.xpath(selector)]
     except Exception:
         return []
@@ -96,13 +96,13 @@ def create_frequency_table(titles):
     """
     Returns a sorted dict containing all tokens inside the given titles and their frequency among all titles.
 
-    To make the table smaller, it will remove those words with frequency = 1.
+    To make the table smaller, it will remove those words with frequency = 1. Why? When we're doing a lookup in the
+    frequency table and some word is missing, we will know it's the first time we analyze it.
+
     e.g. if `titles` = ['Trump goes to Japan', 'Trump offends Australian people'], the frequency table will look like:
     {
         'trump': 2,
     }
-    Why? When we do a lookup in the frequency table and some word is missing, we will know it's the first time we
-    analyze it.
 
     :param html: The HTML data to analyze
     :param selector: The XPath selector of the titles
@@ -169,8 +169,10 @@ def _get_title_weight(title, frequency_table=None):
 # Main script execution flow
 if __name__ == '__main__':
 
-    def _pretty_titles(titles):
+    def _pretty_titles(titles, limit=0):
         # Small helper just to pretty print the results of `get_titles_by_weight`
+        if limit:
+            titles = titles[:limit]
         return '\n'.join('{title} ({weight})'.format(title=title, weight=weight) for weight, title in titles)
 
     # Getting the HTML, then finding all titles in it and building the frequency table
@@ -182,9 +184,9 @@ if __name__ == '__main__':
     titles = get_titles_by_weight(all_titles, frequency_table=frequency_table)
     print('-------')
     # Without sort, to check the original order
-    print(_pretty_titles(titles))
+    print(_pretty_titles(titles, limit=10))
     print('-------')
     sorted_titles = get_titles_by_weight(all_titles, frequency_table=frequency_table, sort=True)
     # Sorted this time
-    print(_pretty_titles(sorted_titles))
+    print(_pretty_titles(sorted_titles, limit=10))
     print('-------')
