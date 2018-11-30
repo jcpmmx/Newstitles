@@ -1,4 +1,5 @@
 # Newstitles
+> Originally developed as a take-home test project for Litimetrics.
 
 The task is to write a function that produces a list of article titles from The NY Times (www.nytimes.com) and then
 sorts them by the sum of each title's tokens frequency (let's call this sum `weight` -a token is just a word separated
@@ -24,8 +25,7 @@ The sorted list would be:
 
 ---
 
-Implementation details
----
+### Implementation details
 
 Requires:
 - Python 2.7.10
@@ -41,6 +41,6 @@ In case you want to run it with different settings, modify these 2 vars:
  - `TARGET_URL`: URL of the site to analyze (e.g. `https://www.nytimes.com`)
  - `TARGET_SELECTOR`: XPath selector of the expected location of each title (e.g. `/html/body//article@title`)
 
-Notes:
+### Notes
 - We're assuming English as language
 - For simplicity, all chars other than alphanumeric ones are stripped and we will ignore single chars
