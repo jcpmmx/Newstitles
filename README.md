@@ -1,6 +1,20 @@
 # Newstitles
 > Originally developed as a take-home test project for Litimetrics.
 
+### Built and tested with
+- Python (v2.7.10)
+- requests (v2.18.4)
+- lxml (v4.1.1)
+
+### How to run this locally
+```
+$ python newtitles.py
+```
+
+---
+
+### About this solution
+
 The task is to write a function that produces a list of article titles from The NY Times (www.nytimes.com) and then
 sorts them by the sum of each title's tokens frequency (let's call this sum `weight` -a token is just a word separated
 by whitespace) among all titles. The output should be this sorted list along with the score for each article title.
@@ -23,24 +37,11 @@ The sorted list would be:
 - Judges visit Trump (5)
 - Shooting in Texas (4)
 
----
-
-### Implementation details
-
-Requires:
-- Python 2.7.10
-- requests 2.18.4
-- lxml 4.1.1
-
-This script has some settings hardcoded to run use the base case: titles from The NY Times.
-To run it, just do:
-```
-$ python newtitles.py
-```
+This script has some settings hardcoded to run use the base case: titles from The NY Times.  
 In case you want to run it with different settings, modify these 2 vars:
  - `TARGET_URL`: URL of the site to analyze (e.g. `https://www.nytimes.com`)
  - `TARGET_SELECTOR`: XPath selector of the expected location of each title (e.g. `/html/body//article@title`)
 
-### Notes
+### Limitations
 - We're assuming English as language
 - For simplicity, all chars other than alphanumeric ones are stripped and we will ignore single chars
